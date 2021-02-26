@@ -4,11 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class MetaTestData {
-    public enum status {
-        PASSED,
-        FAILED,
-        ERRORED;
-    }
+    Status status;
     String expected;
     String actual;
     String message;
