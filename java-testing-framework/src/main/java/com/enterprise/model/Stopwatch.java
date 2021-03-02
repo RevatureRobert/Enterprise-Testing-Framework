@@ -19,10 +19,10 @@ public class Stopwatch {
     public void stopStopWatch()
     {
         this.endedTOCK = LocalTime.now();
-        elapsedTICKTOCK = startedTICK.until(endedTOCK, MILLIS);
+        elapsedTICKTOCK = startedTICK.until(endedTOCK, NANOS);
     }
 
-    public long getElapsedTime()
+    public double getElapsedTime()
     {
         return elapsedTICKTOCK;
     }
