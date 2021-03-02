@@ -1,18 +1,15 @@
 package com.enterprise.model;
 
 import java.time.LocalTime;
+import static java.time.temporal.ChronoUnit.*;
 
 public class Stopwatch {
     LocalTime startedTICK;
     LocalTime endedTOCK;
-    LocalTime elapsedTICKTOCK;
-
-    Stopwatch myTimer = new Stopwatch();
+    long elapsedTICKTOCK;
 
     public Stopwatch(){
-        startStopwatch();
     }
-
 
     public void startStopwatch()
     {
@@ -22,10 +19,11 @@ public class Stopwatch {
     public void stopStopWatch()
     {
         this.endedTOCK = LocalTime.now();
+        elapsedTICKTOCK = startedTICK.until(endedTOCK, MILLIS);
     }
 
-    public int getElapsedTime()
+    public long getElapsedTime()
     {
-        return this.endedTOCK.minus(this.startedTICK, );
+        return elapsedTICKTOCK;
     }
 }

@@ -8,6 +8,15 @@ import java.util.Arrays;
 public class Driver {
 
     public static void main(String[] args){
-        System.out.println("a");
+        Stopwatch s = new Stopwatch();
+        s.startStopwatch();
+        System.out.println("args = " );
+        System.out.println("args = " );
+        System.out.println("args = " );
+        System.out.println("args = " );
+        System.out.println("args = " );
+        System.out.println("args = " );
+        s.stopStopWatch();
+        System.out.println(s.getElapsedTime()+ "milliseconds");
     }
 }
