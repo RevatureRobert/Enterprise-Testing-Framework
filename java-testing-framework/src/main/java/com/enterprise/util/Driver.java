@@ -17,6 +17,6 @@ public class Driver {
         System.out.println("args = " );
         System.out.println("args = " );
         s.stopStopWatch();
-        System.out.println(s.getElapsedTime()+ " milliseconds");
+        System.out.println(s.getElapsedTime());
     }
 }

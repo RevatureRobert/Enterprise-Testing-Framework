@@ -6,7 +6,7 @@ import static java.time.temporal.ChronoUnit.*;
 public class Stopwatch {
     LocalTime startedTICK;
     LocalTime endedTOCK;
-    long elapsedTICKTOCK;
+    LocalTime elapsedTICKTOCK;
 
     public Stopwatch(){
     }
@@ -19,10 +19,10 @@ public class Stopwatch {
     public void stopStopWatch()
     {
         this.endedTOCK = LocalTime.now();
-        elapsedTICKTOCK = startedTICK.until(endedTOCK, NANOS);
+        elapsedTICKTOCK = startedTICK.minusNanos(endedTOCK.toNanoOfDay());
     }
 
-    public long getElapsedTime()
+    public LocalTime getElapsedTime()
     {
         return elapsedTICKTOCK;
     }
