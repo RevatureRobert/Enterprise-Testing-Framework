@@ -19,11 +19,12 @@ public class Stopwatch {
     public void stopStopWatch()
     {
         this.endedTOCK = LocalTime.now();
-        elapsedTICKTOCK = startedTICK.minusNanos(endedTOCK.toNanoOfDay());
+        elapsedTICKTOCK = endedTOCK.minusNanos(startedTICK.toNanoOfDay());
     }
 
     public LocalTime getElapsedTime()
     {
+        System.out.println("Elapsed time: " + elapsedTICKTOCK.getNano() + "  nano seconds");
         return elapsedTICKTOCK;
     }
 }
