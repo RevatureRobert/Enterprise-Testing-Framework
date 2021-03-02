@@ -8,7 +8,7 @@ public class Stopwatch {
     LocalTime elapsedTICKTOCK;
     public Stopwatch(){
         Stopwatch mytimer = new Stopwatch();
-        mytimer.startedTICK = LocalTime;
+        mytimer.startedTICK = LocalTime.now();
 
     };
 }
