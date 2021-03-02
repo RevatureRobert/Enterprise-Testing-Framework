@@ -3,7 +3,9 @@ package com.enterprise.model;
 import java.time.LocalTime;
 
 public class Stopwatch {
-    LocalTime started;
-    LocalTime ended;
-    LocalTime elapsed;
+    LocalTime startedTICK;
+    LocalTime endedTOCK;
+    LocalTime elapsedTICKTOCK;
 }
+
+public static void main(String[] args                                                                                                                                                )
