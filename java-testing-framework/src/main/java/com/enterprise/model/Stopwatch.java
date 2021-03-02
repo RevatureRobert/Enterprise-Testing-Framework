@@ -22,7 +22,7 @@ public class Stopwatch {
         elapsedTICKTOCK = startedTICK.until(endedTOCK, NANOS);
     }
 
-    public double getElapsedTime()
+    public long getElapsedTime()
     {
         return elapsedTICKTOCK;
     }
