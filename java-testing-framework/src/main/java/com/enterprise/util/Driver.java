@@ -1,15 +1,21 @@
 package com.enterprise.util;
 
+import com.enterprise.EnterpriseNoAppropriateConstructorFoundException;
 import com.enterprise.annotations.TestMethod;
 import com.enterprise.model.MetaTestData;
 
 import java.lang.reflect.Method;
 
 public class Driver {
-    @TestMethod(name = "default test", expected = "main")
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EnterpriseNoAppropriateConstructorFoundException {
         //HashMap <Class,Method[]> methodmap = new HashMap<Class, Method[]>();
+        HashMap <Method, MetaTestData> resultmap = null;
+        try {
+             resultmap = new TestDiscovery().runAndStoreTestInformation();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        HashMap <Method, MetaTestData> resultmap = new HashMap<Method, MetaTestData>();
+        System.out.println(resultmap);
     }
 }

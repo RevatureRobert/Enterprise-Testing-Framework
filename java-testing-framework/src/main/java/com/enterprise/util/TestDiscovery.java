@@ -35,11 +35,18 @@ public class TestDiscovery {
 
     // TODO: Implement this method to gather all the test classes and call the getTestMethods method
     public Class[] getTestClasses() {
-        Reflections reflections = new Reflections("com.crunch",new SubTypesScanner(false), new TypeAnnotationsScanner(), new MethodAnnotationsScanner());
+        Reflections reflections = new Reflections("com.",new SubTypesScanner(false), new TypeAnnotationsScanner(), new MethodAnnotationsScanner());
         //System.out.println(reflections.toString());
 
         Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
-        return (Class[]) classes.toArray();
+        int i = 0;
+        Class[] result = new Class[classes.size()]; {
+            for (Class c: classes
+                 ) {
+                result[i++] = c;
+            }
+        }
+        return result;
         //System.out.println(classes.toString());
         //classes.forEach(name -> {
 
@@ -54,7 +61,12 @@ public class TestDiscovery {
 
         for(Class c: testClasses) {
             for (Method m: getTestMethods(c)) {
-                String expected = m.getDeclaredAnnotation(TestMethod.class).expected();
+                String expected;
+                if (m !=null && m.getDeclaredAnnotation(TestMethod.class).expected() !=null) {
+                    expected = m.getDeclaredAnnotation(TestMethod.class).expected();
+                } else {
+                    continue;
+                }
                 Stopwatch stop = new Stopwatch();
                 try {
                     stop.startStopwatch();
@@ -63,7 +75,8 @@ public class TestDiscovery {
                     results.put(m,TestResultsAPI.testString(expected,actual,stop.getElapsedTime()));
                 } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
                     stop.stopStopWatch();
-                    throw new EnterpriseNoAppropriateConstructorFoundException();
+                    results.put(m,TestResultsAPI.testString(expected,"EXCEPTION",stop.getElapsedTime(),e));
+                    //throw new EnterpriseNoAppropriateConstructorFoundException();
                 } catch (Exception e) {
                     stop.stopStopWatch();
                     results.put(m,TestResultsAPI.testString(expected,"EXCEPTION",stop.getElapsedTime(),e));

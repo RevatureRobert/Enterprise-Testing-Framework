@@ -19,7 +19,7 @@ public class HashMap<K,V> {
     }
 
     public void put(K key, V value) {
-        int index = key.hashCode() % capacity;
+        int index = Math.abs(key.hashCode() % capacity);
 
 
         if(buckets[index] == null){
@@ -104,13 +104,17 @@ public class HashMap<K,V> {
     }
 
     public String toString(){
-        String result = "";
-        for (Node n : buckets){
+        StringBuilder result = new StringBuilder();
+        for (Node<K,V> n : buckets){
             if(n != null){
-                result.concat(n.toString() + System.lineSeparator());
+                Node<K,V> n3 = n;
+                do {
+                    result.append(n3.toString() + System.lineSeparator());
+                    n3 = n3.next;
+                } while (n3 != null);
             }
         }
-        return result;
+        return result.toString();
     }
     private class Node<K, V> {
         K key;
