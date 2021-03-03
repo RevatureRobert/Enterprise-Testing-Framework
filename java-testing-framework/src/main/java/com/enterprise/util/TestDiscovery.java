@@ -57,9 +57,4 @@ public class TestDiscovery {
         }
         return null;
     }
-    @TestMethod
-    public static void main(String[] args) {
-        new TestDiscovery().getTestClasses();
-    }
-
 }
