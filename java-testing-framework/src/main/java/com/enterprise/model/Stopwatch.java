@@ -9,6 +9,7 @@ public class Stopwatch {
     LocalTime elapsedTICKTOCK;
 
     public Stopwatch(){
+        elapsedTICKTOCK = LocalTime.MIN;
     }
 
     public void startStopwatch()
@@ -19,7 +20,7 @@ public class Stopwatch {
     public void stopStopWatch()
     {
         this.endedTOCK = LocalTime.now();
-        elapsedTICKTOCK = startedTICK.minusNanos(endedTOCK.toNanoOfDay());
+        elapsedTICKTOCK = endedTOCK.minusNanos(startedTICK.toNanoOfDay());
     }
 
     public LocalTime getElapsedTime()
