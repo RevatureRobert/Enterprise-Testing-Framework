@@ -112,26 +112,25 @@ public class HashMap<K,V> {
         }
         return result;
     }
-}
+    private class Node<K, V> {
+        K key;
+        V data;
+        Node next;
 
-class Node<K, V> {
-    K key;
-    V data;
-    Node next;
+        public Node(K key, V data) {
+            this.key = key;
+            this.data = data;
+            this.next = null;
+        }
 
-    public Node(K key, V data) {
-        this.key = key;
-        this.data = data;
-        this.next = null;
-    }
+        public Node(K key, V data, Node next) {
+            this.key = key;
+            this.data = data;
+            this.next = next;
+        }
 
-    public Node(K key, V data, Node next) {
-        this.key = key;
-        this.data = data;
-        this.next = next;
-    }
-
-    public String toString(){
-        return "Key: " + this.key.toString() + " Data: " + this.data.toString();
+        public String toString(){
+            return "Key: " + this.key.toString() + " Data: " + this.data.toString();
+        }
     }
 }
