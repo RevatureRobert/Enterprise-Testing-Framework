@@ -3,11 +3,14 @@ package com.enterprise.util;
 import com.enterprise.EnterpriseNoAppropriateConstructorFoundException;
 import com.enterprise.annotations.TestMethod;
 import com.enterprise.model.MetaTestData;
+import com.enterprise.model.Stopwatch;
+import com.enterprise.results.TestResultsAPI;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
@@ -18,7 +21,7 @@ public class TestDiscovery {
         // TODO: replace with collection that is dynamic in size, good for frequently adding
         //      does not allow duplicates,
         if (clazz == null) {
-            return new Method[0];
+            return null;
         }
         Method[] tempArr = new Method[clazz.getMethods().length];
         int currentIndex = 0;
@@ -31,30 +34,51 @@ public class TestDiscovery {
     }
 
     // TODO: Implement this method to gather all the test classes and call the getTestMethods method
-    public void getTestClasses() {
-        Reflections reflections = new Reflections("com.enterprise",new SubTypesScanner(false), new TypeAnnotationsScanner(), new MethodAnnotationsScanner());
-        System.out.println(reflections.toString());
+    public Class[] getTestClasses() {
+        Reflections reflections = new Reflections("com.crunch",new SubTypesScanner(false), new TypeAnnotationsScanner(), new MethodAnnotationsScanner());
+        //System.out.println(reflections.toString());
 
         Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
-        System.out.println(classes.toString());
-        classes.forEach(name -> {
-            getTestMethods(name)
-            ;
-        });
+        return (Class[]) classes.toArray();
+        //System.out.println(classes.toString());
+        //classes.forEach(name -> {
+
+            //;
+        //});
     }
 
-    public MetaTestData[] runAndStoreTestInformation(Class clazz) throws EnterpriseNoAppropriateConstructorFoundException {
-        Method[] methods = getTestMethods(clazz);
+    public HashMap<Method,MetaTestData> runAndStoreTestInformation() throws EnterpriseNoAppropriateConstructorFoundException {
 
+        HashMap<Method,MetaTestData> results = new HashMap<Method,MetaTestData>();
+        Class[] testClasses = getTestClasses();
 
-        Method m = methods[0];
-        // TODO: check if there is a no arg constructor, if there is not then throw an exception
-        try {
-            m.invoke(clazz.getConstructors()[0].newInstance());
-            // TODO: Get information from the map to to inform the developer about the tests that were ran
-        } catch (Exception e){
-            throw new EnterpriseNoAppropriateConstructorFoundException();
+        for(Class c: testClasses) {
+            for (Method m: getTestMethods(c)) {
+                String expected = m.getDeclaredAnnotation(TestMethod.class).expected();
+                Stopwatch stop = new Stopwatch();
+                try {
+                    stop.startStopwatch();
+                    String actual = m.invoke(c.getConstructors()[0].newInstance()).toString();
+                    stop.stopStopWatch();
+                    results.put(m,TestResultsAPI.testString(expected,actual,stop.getElapsedTime()));
+                } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                    stop.stopStopWatch();
+                    throw new EnterpriseNoAppropriateConstructorFoundException();
+                } catch (Exception e) {
+                    stop.stopStopWatch();
+                    results.put(m,TestResultsAPI.testString(expected,"EXCEPTION",stop.getElapsedTime(),e));
+                }
+            }
         }
-        return null;
+
+        //Method m = methods[0];
+        // TODO: check if there is a no arg constructor, if there is not then throw an exception
+        //try {
+        //    m.invoke(clazz.getConstructors()[0].newInstance());
+            // TODO: Get information from the map to to inform the developer about the tests that were ran
+       // } catch (Exception e){
+       //     throw new EnterpriseNoAppropriateConstructorFoundException();
+       // }
+        return results;
     }
 }

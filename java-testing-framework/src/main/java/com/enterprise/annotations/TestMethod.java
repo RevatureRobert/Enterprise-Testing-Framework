@@ -8,4 +8,5 @@ import java.lang.annotation.*;
 public @interface TestMethod {
 
     String name() default "standard test";
+    String expected() default "expected";
 }
