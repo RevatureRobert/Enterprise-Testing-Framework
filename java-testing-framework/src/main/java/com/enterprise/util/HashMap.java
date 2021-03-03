@@ -103,7 +103,15 @@ public class HashMap<K,V> {
         return null;
     }
 
-
+    public String toString(){
+        String result = "";
+        for (Node n : buckets){
+            if(n != null){
+                result.concat(n.toString() + System.lineSeparator());
+            }
+        }
+        return result;
+    }
 }
 
 class Node<K, V> {
@@ -121,5 +129,9 @@ class Node<K, V> {
         this.key = key;
         this.data = data;
         this.next = next;
+    }
+
+    public String toString(){
+        return "Key: " + this.key.toString() + " Data: " + this.data.toString();
     }
 }
