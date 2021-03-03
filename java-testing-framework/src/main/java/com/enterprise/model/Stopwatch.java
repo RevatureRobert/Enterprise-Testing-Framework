@@ -4,9 +4,9 @@ import java.time.LocalTime;
 import static java.time.temporal.ChronoUnit.*;
 
 public class Stopwatch {
-    LocalTime startedTICK;
-    LocalTime endedTOCK;
-    LocalTime elapsedTICKTOCK;
+    private LocalTime startedTICK;
+    private LocalTime endedTOCK;
+    private LocalTime elapsedTICKTOCK;
 
     public Stopwatch(){
         elapsedTICKTOCK = LocalTime.MIN;
