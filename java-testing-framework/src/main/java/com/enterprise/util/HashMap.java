@@ -134,7 +134,7 @@ public class HashMap<K,V> {
         }
 
         public String toString(){
-            return "Key: " + this.key.toString() + " Data: " + this.data.toString();
+            return "Key: " + this.key.toString() + System.lineSeparator() + "Data: " + this.data.toString();
         }
     }
 }

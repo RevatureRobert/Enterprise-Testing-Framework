@@ -22,9 +22,9 @@ public class MetaTestData {
         return "MetaTestData{" +
             "status=" + status +
             ", expected='" + expected + '\'' +
-            ", actual='" + actual + '\'' +
-            ", message='" + message + '\'' +
-            ", badStuff=" + badStuff +
+            ", actual='" + actual + '\'' + ", " + System.lineSeparator() +
+            " message='" + message + '\'' + ", " + System.lineSeparator() +
+            " badStuff=" + badStuff +
             ", elapsedRunTime=" + elapsedRunTime +
             '}';
     }
