@@ -1,9 +1,30 @@
 package com.enterprise.model;
 
 import java.time.LocalTime;
+import static java.time.temporal.ChronoUnit.*;
 
 public class Stopwatch {
-    LocalTime started;
-    LocalTime ended;
-    LocalTime elapsed;
+    private LocalTime startedTICK;
+    private LocalTime endedTOCK;
+    private LocalTime elapsedTICKTOCK;
+
+    public Stopwatch(){
+        elapsedTICKTOCK = LocalTime.MIN;
+    }
+
+    public void startStopwatch()
+    {
+        this.startedTICK = LocalTime.now();
+    };
+
+    public void stopStopWatch()
+    {
+        this.endedTOCK = LocalTime.now();
+        elapsedTICKTOCK = endedTOCK.minusNanos(startedTICK.toNanoOfDay());
+    }
+
+    public LocalTime getElapsedTime()
+    {
+        return elapsedTICKTOCK;
+    }
 }
