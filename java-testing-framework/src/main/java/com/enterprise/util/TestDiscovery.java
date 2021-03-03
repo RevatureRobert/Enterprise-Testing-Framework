@@ -36,7 +36,7 @@ public class TestDiscovery {
 
     // TODO: Implement this method to gather all the test classes and call the getTestMethods method
     public Class[] getTestClasses() {
-        Reflections reflections = new Reflections("com.");
+        Reflections reflections = new Reflections("");
         //System.out.println(reflections.toString());
 
         Set<Class<?>> classes = reflections.getTypesAnnotatedWith(TestClass.class);

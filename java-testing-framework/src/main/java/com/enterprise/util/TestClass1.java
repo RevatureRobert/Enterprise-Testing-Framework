@@ -2,7 +2,7 @@ package com.enterprise.util;
 
 import com.enterprise.annotations.TestClass;
 import com.enterprise.annotations.TestMethod;
-
+@TestClass
 public class TestClass1 {
     @TestMethod(name = "test1",expected = "result1")
     public String testMethod1 () {
