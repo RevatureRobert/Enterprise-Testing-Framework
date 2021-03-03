@@ -1,5 +1,6 @@
 package com.enterprise.util;
 
+import com.enterprise.annotations.TestClass;
 import com.enterprise.annotations.TestMethod;
 
 public class TestClass1 {

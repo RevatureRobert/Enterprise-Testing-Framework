@@ -1,6 +1,7 @@
 package com.enterprise.util;
 
 import com.enterprise.EnterpriseNoAppropriateConstructorFoundException;
+import com.enterprise.annotations.TestClass;
 import com.enterprise.annotations.TestMethod;
 import com.enterprise.model.MetaTestData;
 import com.enterprise.model.Stopwatch;
@@ -35,10 +36,11 @@ public class TestDiscovery {
 
     // TODO: Implement this method to gather all the test classes and call the getTestMethods method
     public Class[] getTestClasses() {
-        Reflections reflections = new Reflections("com.",new SubTypesScanner(false), new TypeAnnotationsScanner(), new MethodAnnotationsScanner());
+        Reflections reflections = new Reflections("com.");
         //System.out.println(reflections.toString());
 
-        Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
+        Set<Class<?>> classes = reflections.getTypesAnnotatedWith(TestClass.class);
+
         int i = 0;
         Class[] result = new Class[classes.size()]; {
             for (Class c: classes
@@ -47,11 +49,6 @@ public class TestDiscovery {
             }
         }
         return result;
-        //System.out.println(classes.toString());
-        //classes.forEach(name -> {
-
-            //;
-        //});
     }
 
     public HashMap<Method,MetaTestData> runAndStoreTestInformation() throws EnterpriseNoAppropriateConstructorFoundException {
