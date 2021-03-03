@@ -20,11 +20,11 @@ public class Stopwatch {
     public void stopStopWatch()
     {
         this.endedTOCK = LocalTime.now();
-        elapsedTICKTOCK = endedTOCK.minusNanos(startedTICK.toNanoOfDay());
     }
 
     public LocalTime getElapsedTime()
     {
+        elapsedTICKTOCK = endedTOCK.minusNanos(startedTICK.toNanoOfDay());
         System.out.println("Elapsed time: " + elapsedTICKTOCK.getNano() + "  nano seconds");
         return elapsedTICKTOCK;
     }
