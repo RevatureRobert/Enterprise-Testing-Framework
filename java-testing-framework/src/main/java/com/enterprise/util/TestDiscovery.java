@@ -75,8 +75,7 @@ public class TestDiscovery {
                     results.put(m,TestResultsAPI.testString(expected,actual,stop.getElapsedTime()));
                 } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
                     stop.stopStopWatch();
-                    results.put(m,TestResultsAPI.testString(expected,"EXCEPTION",stop.getElapsedTime(),e));
-                    //throw new EnterpriseNoAppropriateConstructorFoundException();
+                    results.put(m,TestResultsAPI.testString(expected,"EXCEPTION",stop.getElapsedTime(),new EnterpriseNoAppropriateConstructorFoundException()));
                 } catch (Exception e) {
                     stop.stopStopWatch();
                     results.put(m,TestResultsAPI.testString(expected,"EXCEPTION",stop.getElapsedTime(),e));

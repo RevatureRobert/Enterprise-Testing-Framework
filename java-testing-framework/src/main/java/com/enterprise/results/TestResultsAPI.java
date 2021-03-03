@@ -1,5 +1,6 @@
 package com.enterprise.results;
 
+import com.enterprise.EnterpriseNoAppropriateConstructorFoundException;
 import com.enterprise.model.MetaTestData;
 import com.enterprise.model.Status;
 
@@ -29,7 +30,10 @@ public class TestResultsAPI {
     public static MetaTestData testString(String expected, String actual, LocalTime elapsedRunTime, Throwable badStuff){
         Status status;
         String message;
-        if (badStuff != null){
+        if (badStuff instanceof EnterpriseNoAppropriateConstructorFoundException) {
+            status = Status.NEVER_RAN;
+            message = "there was an error. \n error: "+badStuff.toString();
+        } else if (badStuff != null){
             status = Status.ERRORED;
             message = "there was an error. error: "+badStuff.toString();
         } else if(expected.equals(actual)){
