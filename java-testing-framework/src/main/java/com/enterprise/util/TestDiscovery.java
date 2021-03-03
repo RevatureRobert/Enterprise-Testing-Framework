@@ -3,10 +3,13 @@ package com.enterprise.util;
 import com.enterprise.EnterpriseNoAppropriateConstructorFoundException;
 import com.enterprise.annotations.TestMethod;
 import com.enterprise.model.MetaTestData;
-import com.enterprise.results.TestResultsAPI;
+import org.reflections.Reflections;
+import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 public class TestDiscovery {
 
@@ -24,13 +27,20 @@ public class TestDiscovery {
                 tempArr[currentIndex++] = m;
             }
         }
-
         return tempArr;
     }
 
     // TODO: Implement this method to gather all the test classes and call the getTestMethods method
-    public Class[] getTestClasses() {
-        return null;
+    public void getTestClasses() {
+        Reflections reflections = new Reflections("com.enterprise",new SubTypesScanner(false), new TypeAnnotationsScanner(), new MethodAnnotationsScanner());
+        System.out.println(reflections.toString());
+
+        Set<Class<? extends Object>> classes = reflections.getSubTypesOf(Object.class);
+        System.out.println(classes.toString());
+        classes.forEach(name -> {
+            getTestMethods(name)
+            ;
+        });
     }
 
     public MetaTestData[] runAndStoreTestInformation(Class clazz) throws EnterpriseNoAppropriateConstructorFoundException {
@@ -47,9 +57,4 @@ public class TestDiscovery {
         }
         return null;
     }
-
-    public static void main(String[] args) {
-        TestResultsAPI.testString("bob","bob","message");
-    }
-
 }
