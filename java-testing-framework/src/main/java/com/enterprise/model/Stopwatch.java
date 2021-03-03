@@ -25,6 +25,7 @@ public class Stopwatch {
 
     public LocalTime getElapsedTime()
     {
+        System.out.println("Elapsed time: " + elapsedTICKTOCK.getNano() + "  nano seconds");
         return elapsedTICKTOCK;
     }
 }
