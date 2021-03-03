@@ -32,7 +32,7 @@ public class TestResultsAPI {
         String message;
         if (badStuff instanceof EnterpriseNoAppropriateConstructorFoundException) {
             status = Status.NEVER_RAN;
-            message = "there was an error. \n error: "+badStuff.toString();
+            message = "there was an error. error: "+badStuff.toString();
         } else if (badStuff != null){
             status = Status.ERRORED;
             message = "there was an error. error: "+badStuff.toString();
