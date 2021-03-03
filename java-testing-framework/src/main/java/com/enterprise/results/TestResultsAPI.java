@@ -31,13 +31,13 @@ public class TestResultsAPI {
         String message;
         if (badStuff != null){
             status = Status.ERRORED;
-            message = "there was an error. \n error: "+badStuff.toString();
+            message = "there was an error. error: "+badStuff.toString();
         } else if(expected.equals(actual)){
             status = Status.PASSED;
-            message = "parameters match. \n parameters: "+expected;
+            message = "parameters match. parameters: "+expected;
         } else {
             status = Status.FAILED;
-            message = "parameters did not match. \n expected: "+expected+"\t actual: "+actual;
+            message = "parameters did not match. expected: "+expected+"\t actual: "+actual;
         }
         return new MetaTestData(status, expected, actual, message, badStuff, elapsedRunTime);
     }
