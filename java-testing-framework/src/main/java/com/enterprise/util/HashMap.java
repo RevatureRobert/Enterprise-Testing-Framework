@@ -1,7 +1,10 @@
 package com.enterprise.util;
 
 
-public class HashMap<K,V> {
+import javafx.util.Pair;
+import java.util.Iterator;
+
+public class HashMap<K,V> implements Iterable<Pair<K, V>>{
 
     private Node<K, V> buckets[];
     private int size;
@@ -16,7 +19,7 @@ public class HashMap<K,V> {
     }
 
     public V put(K key, V value) {
-        if (Math.abs(capacity / (size + 1)) < loadFactor) {
+        if (capacity / (size + 1) < loadFactor) {
             capacity = capacity * 2;
             Node<K, V> newBuckets[] = new Node[capacity];
 
@@ -48,6 +51,7 @@ public class HashMap<K,V> {
 
         if (buckets[index] == null) {
             buckets[index] = new Node<K, V>(key, value);
+            size++;
             return value;
         }
 
@@ -75,7 +79,7 @@ public class HashMap<K,V> {
         Node<K, V> currentNode = buckets[index];
 
         if (currentNode.key.equals(key)) {
-            buckets[index] = null;
+            buckets[index] = currentNode.next;
             size--;
             return currentNode.value;
         }
@@ -108,7 +112,7 @@ public class HashMap<K,V> {
         return null;
     }
 
-    public int getSize() { return size; }
+    public int getSize() { return this.size; }
 
 
 
@@ -116,7 +120,12 @@ public class HashMap<K,V> {
         return Math.abs(key.hashCode() % capacity);
     }
 
-    private class Node<K, V> {
+    @Override
+    public Iterator<Pair<K, V>> iterator() {
+        return new  HashMapIterator(buckets);
+    }
+
+    protected class Node<K, V> {
         K key;
         V value;
         Node next;
@@ -127,4 +136,82 @@ public class HashMap<K,V> {
             this.next = null;
         }
     }
+}
+
+
+//The K is the key and V is value;
+class HashMapIterator<K, V> implements Iterator<Pair<K, V>> {
+
+    private HashMap.Node buckets[];
+    private HashMap.Node currentNode;
+    private HashMap.Node nextNode;
+    private int index;
+
+    public HashMapIterator(HashMap.Node buckets[]) {
+        this.buckets = buckets;
+        this.currentNode = null;
+        this.index = 0;
+
+        //find first node
+        while (index < this.buckets.length) {
+            if (this.buckets[index] != null) {
+                this.currentNode = this.buckets[index];
+                break;
+            }
+            index++;
+        }
+
+        if (this.currentNode == null)
+            return;
+
+        if (this.currentNode.next != null) {
+            this.nextNode = currentNode.next;
+        }
+        else {
+            while (++index < this.buckets.length) {
+                if (this.buckets[index] != null) {
+                    this.nextNode = this.buckets[index];
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean hasNext() {
+        return (this.nextNode != null);
+    }
+
+    @Override
+    public Pair<K, V> next() {
+        if (this.currentNode == null)
+            return null;
+
+        Pair<K, V> returnPair = new Pair(this.currentNode.key, this.currentNode.value);
+
+        if (this.nextNode == null) {
+            this.currentNode = null;
+            return returnPair;
+        }
+
+        this.currentNode = this.nextNode;
+
+        if (this.nextNode.next != null) {
+            this.nextNode = this.nextNode.next;
+            return returnPair;
+        }
+
+        while (++index < this.buckets.length) {
+            if (this.buckets[index] != null) {
+                this.nextNode = this.buckets[index];
+                return returnPair;
+            }
+        }
+
+        this.nextNode = null;
+        return returnPair;
+
+    }
+
+
 }
