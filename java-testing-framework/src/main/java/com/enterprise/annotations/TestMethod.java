@@ -13,8 +13,8 @@ import java.lang.annotation.*;
       actual result is not know, wildcards are typically used for A.)
       TODO:Enforce this contract (potentially with annotation refactor) at compile time.
 
-      The TestResultsApi class contains static members to aid in test evaluation.
-      TODO:
+      The TestResultsApi class contains static methods to aid in test evaluation.
+      TODO:have more test options.
  */
 
 @Retention(RetentionPolicy.RUNTIME)
