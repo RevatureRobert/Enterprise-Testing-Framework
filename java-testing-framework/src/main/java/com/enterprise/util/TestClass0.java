@@ -8,7 +8,7 @@ public class TestClass0 {
     public TestClass0(int j) {
         i = j;
     }
-    @TestMethod(name = "constructor", expected = "blah")
+    @TestMethod
     public int blah () {
         return 0;
     }

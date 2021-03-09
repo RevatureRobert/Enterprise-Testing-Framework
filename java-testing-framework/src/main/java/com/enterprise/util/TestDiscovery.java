@@ -4,6 +4,7 @@ import com.enterprise.EnterpriseNoAppropriateConstructorFoundException;
 import com.enterprise.annotations.TestClass;
 import com.enterprise.annotations.TestMethod;
 import com.enterprise.model.MetaTestData;
+import com.enterprise.model.Status;
 import com.enterprise.model.Stopwatch;
 import com.enterprise.results.TestResultsAPI;
 import org.reflections.Reflections;
@@ -31,7 +32,11 @@ public class TestDiscovery {
                 tempArr[currentIndex++] = m;
             }
         }
-        return tempArr;
+        Method[] rArr = new Method[currentIndex];
+        for (int i = 0; i < currentIndex; i++) {
+            rArr[i] = tempArr[i];
+        }
+        return rArr;
     }
 
     // TODO: Implement this method to gather all the test classes and call the getTestMethods method
@@ -51,31 +56,26 @@ public class TestDiscovery {
         return result;
     }
 
-    public HashMap<Method,MetaTestData> runAndStoreTestInformation() throws EnterpriseNoAppropriateConstructorFoundException {
+    public <E,A> HashMap<Method,MetaTestData<?,?>> runAndStoreTestInformation() throws EnterpriseNoAppropriateConstructorFoundException {
 
-        HashMap<Method,MetaTestData> results = new HashMap<Method,MetaTestData>();
+        HashMap<Method,MetaTestData<?,?>> results = new HashMap<>();
         Class[] testClasses = getTestClasses();
 
         for(Class c: testClasses) {
             for (Method m: getTestMethods(c)) {
-                String expected;
-                if (m !=null && m.getDeclaredAnnotation(TestMethod.class).expected() !=null) {
-                    expected = m.getDeclaredAnnotation(TestMethod.class).expected();
-                } else {
-                    continue;
-                }
                 Stopwatch stop = new Stopwatch();
                 try {
                     stop.startStopwatch();
-                    String actual = m.invoke(c.getConstructors()[0].newInstance()).toString();
+                    MetaTestData<?,?> result = (MetaTestData<?, ?>) m.invoke(c.getConstructors()[0].newInstance());
                     stop.stopStopWatch();
-                    results.put(m,TestResultsAPI.testString(expected,actual,stop.getElapsedTime()));
+                    result.setElapsedRunTime(stop.getElapsedTime());
+                    results.put(m,result);
                 } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
                     stop.stopStopWatch();
-                    results.put(m,TestResultsAPI.testString(expected,"EXCEPTION",stop.getElapsedTime(),new EnterpriseNoAppropriateConstructorFoundException()));
+                    results.put(m,new MetaTestData<E,Throwable>(Status.NEVER_RAN,null,e,"Test not run",new EnterpriseNoAppropriateConstructorFoundException(),stop.getElapsedTime()));
                 } catch (Exception e) {
                     stop.stopStopWatch();
-                    results.put(m,TestResultsAPI.testString(expected,"EXCEPTION",stop.getElapsedTime(),e));
+                    results.put(m,new MetaTestData<E,Throwable>(Status.ERRORED,null,e,"Exception escaped test.",e,stop.getElapsedTime()));
                 }
             }
         }

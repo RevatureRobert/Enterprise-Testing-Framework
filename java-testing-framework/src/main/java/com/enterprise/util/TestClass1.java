@@ -2,18 +2,24 @@ package com.enterprise.util;
 
 import com.enterprise.annotations.TestClass;
 import com.enterprise.annotations.TestMethod;
+import com.enterprise.model.MetaTestData;
+import com.enterprise.results.TestResultsAPI;
+
 @TestClass
 public class TestClass1 {
-    @TestMethod(name = "test1",expected = "result1")
-    public String testMethod1 () {
-        return "result1";
+    @TestMethod
+    public MetaTestData<?,?> testEmptyTest () {
+        return null;
     }
-    @TestMethod(name = "test2",expected = "result1")
-    public String testMethod2 () {
-        return "result2";
+    @TestMethod
+    public MetaTestData<?,?> defaultTestConstructorTest() {
+        return new MetaTestData<>();
     }
-    @TestMethod(name = "test2",expected = "result3")
-    public String testMethod3 () throws Exception {
-        throw new Exception("This is our exeption");
+    @TestMethod
+    public MetaTestData<?,?> testStringTestOne () throws Exception {
+        return TestResultsAPI.testString("one", "one");
+
     }
+    @TestMethod
+    public int testMethodInt1() {   return 5;   }
 }

@@ -3,10 +3,10 @@ package com.enterprise.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class MetaTestData {
+public class MetaTestData<T,K> {
     Status status;
-    String expected;
-    String actual;
+    T expected;
+    K actual;
     String message;
     Throwable badStuff;
     String methodName;
@@ -19,14 +19,28 @@ public class MetaTestData {
 
     @Override
     public String toString() {
-        return "MetaTestData{" +
-            "status=" + status +
-            ", expected='" + expected + '\'' +
-            ", actual='" + actual + '\'' + ", " + System.lineSeparator() +
-            " message='" + message + '\'' + ", " + System.lineSeparator() +
-            " badStuff=" + badStuff +
-            ", elapsedRunTime=" + elapsedRunTime +
-            '}';
+        StringBuilder tmp = new StringBuilder();
+        tmp.append("Test Results: ");
+        tmp.append("Status: ");
+        tmp.append(status);
+        tmp.append("\n");
+        tmp.append("Expected: ");
+        tmp.append(expected);
+        tmp.append('\n');
+        tmp.append("Actual: ");
+        tmp.append(actual);
+        tmp.append('\n');
+        if (message != null) {
+            tmp.append("Message: ");
+            tmp.append(message);
+            tmp.append("\n");
+        }
+        tmp.append("ElapsedRunTime: ");
+        tmp.append(elapsedRunTime);
+        tmp.append("\n");
+
+
+        return tmp.toString();
     }
 
     public Status getStatus() {
@@ -37,19 +51,19 @@ public class MetaTestData {
         this.status = status;
     }
 
-    public String getExpected() {
+    public T getExpected() {
         return expected;
     }
 
-    public void setExpected(String expected) {
+    public void setExpected(T expected) {
         this.expected = expected;
     }
 
-    public String getActual() {
+    public K getActual() {
         return actual;
     }
 
-    public void setActual(String actual) {
+    public void setActual(K actual) {
         this.actual = actual;
     }
 
@@ -78,9 +92,11 @@ public class MetaTestData {
     }
 
     public MetaTestData() {
+        this.status = Status.NEVER_RAN;
+
     }
 
-    public MetaTestData(Status status, String expected, String actual, String message, Throwable badStuff, LocalTime elapsedRunTime) {
+    public MetaTestData(Status status, T expected, K actual, String message, Throwable badStuff, LocalTime elapsedRunTime) {
         this.status = status;
         this.expected = expected;
         this.actual = actual;
