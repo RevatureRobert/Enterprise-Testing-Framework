@@ -1,6 +1,5 @@
 package com.enterprise.model;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class MetaTestData<T,K> {
@@ -9,7 +8,6 @@ public class MetaTestData<T,K> {
     K actual;
     String message;
     Throwable badStuff;
-    String methodName;
 
     /*
         The stopwatch class should provide this information

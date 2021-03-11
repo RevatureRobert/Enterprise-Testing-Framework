@@ -1,8 +1,10 @@
 package com.enterprise.util;
 
-public class HashMap<K,V> {
+import java.util.Iterator;
 
-    Node<K, V> buckets[];
+public class HashMap<K,V> implements Iterable<HashMap.Node<K,V>> {
+
+    Node<K, V>[] buckets;
     int size;
     final int capacity;
 
@@ -23,7 +25,7 @@ public class HashMap<K,V> {
 
 
         if(buckets[index] == null){
-            buckets[index] = new Node<K, V>(key, value);
+            buckets[index] = new Node<>(key, value);
         }
         else{
             Node<K, V> temp;
@@ -41,7 +43,7 @@ public class HashMap<K,V> {
 
                 temp = temp.next;
             }
-            temp.next = new Node<K, V>(key, value);
+            temp.next = new Node<>(key, value);
         }
         size++;
 
@@ -116,10 +118,50 @@ public class HashMap<K,V> {
         }
         return result.toString();
     }
-    private class Node<K, V> {
+
+    @Override
+    public Iterator<Node<K, V>> iterator() {
+
+        Node<K,V>[] temp = new Node[size];
+        int i = 0;
+        if (size==0) return null;
+        for (Node<K,V> n: buckets) {
+            if (n != null) {
+                Node<K, V> node = n;
+                do {
+                    temp[i] = node;
+                    i++;
+                    node = node.next;
+                } while (node != null);
+
+            }
+
+        }
+
+            return new Iterator<Node<K,V>>() {
+            int cursor = 0;
+            Node<K,V>[] itr =temp;
+
+
+                @Override
+                public boolean hasNext() {
+
+                    return cursor != size;
+                }
+
+                @Override
+                public Node<K, V> next() {
+                    return itr[cursor++];
+                }
+            };
+        }
+
+
+
+    protected static class Node<K, V> {
         K key;
         V data;
-        Node next;
+        Node<K,V> next;
 
         public Node(K key, V data) {
             this.key = key;
@@ -127,7 +169,7 @@ public class HashMap<K,V> {
             this.next = null;
         }
 
-        public Node(K key, V data, Node next) {
+        public Node(K key, V data, Node<K,V> next) {
             this.key = key;
             this.data = data;
             this.next = next;
@@ -136,5 +178,9 @@ public class HashMap<K,V> {
         public String toString(){
             return "Key: " + this.key.toString() + System.lineSeparator() + "Data: " + this.data.toString();
         }
+    }
+
+    public int getSize() {
+        return size;
     }
 }

@@ -1,7 +1,6 @@
 package com.enterprise.model;
 
 import java.time.LocalTime;
-import static java.time.temporal.ChronoUnit.*;
 
 public class Stopwatch {
     private LocalTime startedTICK;
@@ -15,7 +14,7 @@ public class Stopwatch {
     public void startStopwatch()
     {
         this.startedTICK = LocalTime.now();
-    };
+    }
 
     public void stopStopWatch()
     {

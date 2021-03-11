@@ -2,10 +2,9 @@ package com.enterprise.results;
 
 import com.enterprise.model.MetaTestData;
 import com.enterprise.model.Status;
-
-// TODO: Implement gathering the throwable case from the actual value and implement the stopwatch feature
+//ToDO:rename?
 public class TestResultsAPI {
-    public static <A> MetaTestData<?,?> testString(String expected, A actual){
+    public static <A> MetaTestData<String,?> testString(String expected, A actual){
         MetaTestData<String, A> mt = new MetaTestData<>();
         mt.setExpected(expected);
         try {
@@ -19,9 +18,29 @@ public class TestResultsAPI {
             }
         } catch (Exception e) {
 
-            mt.setStatus(Status.ERRORED);
+            mt.setStatus(Status.EXCEPTION_THROWN);
             mt.setActual((A) e);
         }
         return mt;
     }
+    //
+    public static <E,A> MetaTestData<E,A> testObject(E expected, A actual){
+        MetaTestData<E, A> mt = new MetaTestData<>();
+        mt.setExpected(expected);
+        try {
+            if(expected.equals(actual)){
+                mt.setStatus(Status.PASSED);
+            } else {
+                mt.setStatus(Status.FAILED);
+
+            }
+            mt.setActual(actual);
+        } catch (Exception e) {
+
+            mt.setStatus(Status.EXCEPTION_THROWN);
+            mt.setActual((A) e);
+        }
+        return mt;
+    }
+
 }

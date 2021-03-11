@@ -6,11 +6,7 @@ import com.enterprise.annotations.TestMethod;
 import com.enterprise.model.MetaTestData;
 import com.enterprise.model.Status;
 import com.enterprise.model.Stopwatch;
-import com.enterprise.results.TestResultsAPI;
 import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.scanners.TypeAnnotationsScanner;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -75,7 +71,7 @@ public class TestDiscovery {
                     results.put(m,new MetaTestData<E,Throwable>(Status.NEVER_RAN,null,e,"Test not run",new EnterpriseNoAppropriateConstructorFoundException(),stop.getElapsedTime()));
                 } catch (Exception e) {
                     stop.stopStopWatch();
-                    results.put(m,new MetaTestData<E,Throwable>(Status.ERRORED,null,e,"Exception escaped test.",e,stop.getElapsedTime()));
+                    results.put(m,new MetaTestData<String,Throwable>(Status.EXCEPTION_THROWN,  "unknown",e,"Exception escaped test.",e,stop.getElapsedTime()));
                 }
             }
         }
@@ -89,5 +85,42 @@ public class TestDiscovery {
        //     throw new EnterpriseNoAppropriateConstructorFoundException();
        // }
         return results;
+    }
+    public void outputTestResultSummary(){
+
+        int tt = 0,pt = 0,et = 0,ft = 0;
+        try {
+            HashMap<Method,MetaTestData<?,?>> tr = runAndStoreTestInformation();
+            System.out.println(tr);
+            tt = tr.getSize();
+            for (HashMap.Node<Method, MetaTestData<?, ?>> m : tr) {
+                switch (m.data.getStatus()){
+
+                    case PASSED:pt++;
+                        break;
+                    case FAILED: ft++;
+                        break;
+                    case EXCEPTION_THROWN: et++;
+                        break;
+                    case NEVER_RAN: et++;
+                        break;
+                }
+
+
+            }
+            StringBuilder ns;
+            ns = new StringBuilder();
+            ns.append("Tests gathered: ");
+            ns.append(tt);
+            ns.append(" Tests Passed: ");
+            ns.append(pt);
+            ns.append(" Tests Failed: ");
+            ns.append(ft);
+            ns.append(" Tests with errors: ");
+            ns.append(et);
+            System.out.println(ns);
+        } catch (EnterpriseNoAppropriateConstructorFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

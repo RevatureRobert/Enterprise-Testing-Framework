@@ -23,3 +23,4 @@ public class TestClass1 {
     @TestMethod
     public int testMethodInt1() {   return 5;   }
 }
+

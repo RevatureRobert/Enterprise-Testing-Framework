@@ -20,6 +20,10 @@ public class Driver {
         }
 
         System.out.println(resultmap);
+        new TestDiscovery().outputTestResultSummary();
+
+
+
     }
 //Example unit(method) to test.
     public int sum(int a, int b) {

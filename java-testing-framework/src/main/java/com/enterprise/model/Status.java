@@ -2,6 +2,6 @@ package com.enterprise.model;
 public enum Status {
     PASSED,
     FAILED,
-    ERRORED,
-    NEVER_RAN;
+    EXCEPTION_THROWN,
+    NEVER_RAN
 }
