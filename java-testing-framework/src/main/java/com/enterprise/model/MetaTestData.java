@@ -2,16 +2,19 @@ package com.enterprise.model;
 
 import java.time.LocalTime;
 
-public class MetaTestData<T,K> {
+/*
+    MetaTestData is a object representing all of the data gathered from a test method.
+
+    TODO: Implement Assertion[] in place of E and A members to allow more complicated testing.
+
+ */
+
+public class MetaTestData<E,A> {
     Status status;
-    T expected;
-    K actual;
+    E expected;
+    A actual;
     String message;
     Throwable badStuff;
-
-    /*
-        The stopwatch class should provide this information
-     */
     LocalTime elapsedRunTime;
 
 
@@ -49,19 +52,19 @@ public class MetaTestData<T,K> {
         this.status = status;
     }
 
-    public T getExpected() {
+    public E getExpected() {
         return expected;
     }
 
-    public void setExpected(T expected) {
+    public void setExpected(E expected) {
         this.expected = expected;
     }
 
-    public K getActual() {
+    public A getActual() {
         return actual;
     }
 
-    public void setActual(K actual) {
+    public void setActual(A actual) {
         this.actual = actual;
     }
 
@@ -94,7 +97,7 @@ public class MetaTestData<T,K> {
 
     }
 
-    public MetaTestData(Status status, T expected, K actual, String message, Throwable badStuff, LocalTime elapsedRunTime) {
+    public MetaTestData(Status status, E expected, A actual, String message, Throwable badStuff, LocalTime elapsedRunTime) {
         this.status = status;
         this.expected = expected;
         this.actual = actual;

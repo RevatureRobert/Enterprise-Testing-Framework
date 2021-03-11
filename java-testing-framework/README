@@ -1,0 +1,26 @@
+
+
+William Enterprise Unit Testing Framework
+
+
+The William Enterprise Unit Testing Framework(WUnit) is a lightweight testing
+framework for internal use among the William Enterprise batch at Revature.
+
+Test methods are used to test the functionality of non-test methods and classes.
+Currently, Test Methods must return TestMetaData<E,A> where
+E is the type of the expected result and
+A is the type of the actual result.
+
+The TestResultApi will contain static methods which simplify common testing
+patterns.
+
+TODO: Add tests for rest primitives to start.
+
+TODO: Refactor TestResultAPI and TestMetaData to contain/generate Assertions.
+
+TODO: TestMetaData status should change to reflect Assertion status.
+
+TODO: Refine output(Add more options or make the singular one more effective, depending on time constraints)
+
+(Optional)TODO:Enforce Test Method structure contract (potentially with annotation refactor) at compile.
+time.

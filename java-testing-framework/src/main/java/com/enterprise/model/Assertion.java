@@ -1,9 +1,12 @@
 package com.enterprise.model;
-
+/*
+    Class under construction, not currently implemented. Will eventually allow MetaTestData to hold more granular information.
+ */
 public class Assertion <E,A>{
     private E expected;
     private A actual;
     private Status status;
+    private String message;
 
     public E getExpected() {
         return expected;
