@@ -96,7 +96,6 @@ public class MetaTestData<E,A> {
         this.status = Status.NEVER_RAN;
 
     }
-
     public MetaTestData(Status status, E expected, A actual, String message, Throwable badStuff, LocalTime elapsedRunTime) {
         this.status = status;
         this.expected = expected;

@@ -1,5 +1,7 @@
 package com.enterprise.util;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import java.util.Iterator;
 
 public class HashMap<K,V> implements Iterable<HashMap.Node<K,V>> {
@@ -176,7 +178,9 @@ public class HashMap<K,V> implements Iterable<HashMap.Node<K,V>> {
         }
 
         public String toString(){
-            return "Key: " + this.key.toString() + System.lineSeparator() + "Data: " + this.data.toString();
+            String[] subKey = this.key.toString().split("\\.");
+            return "Key: " +  (subKey[subKey.length-2]) +'.'+ subKey[subKey.length-1]+ System.lineSeparator() + "Data: " + this.data.toString();
+            
         }
     }
 

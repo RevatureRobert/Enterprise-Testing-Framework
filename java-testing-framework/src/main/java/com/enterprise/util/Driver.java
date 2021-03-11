@@ -23,39 +23,5 @@ public class Driver {
         new TestDiscovery().outputTestResultSummary();
 
 
-
-    }
-//Example unit(method) to test.
-    public int sum(int a, int b) {
-        return a * b;
-
-
-    }
-
-//TODO:Document the formal structure for a valid test method in WUnit of which these two are an example?
-    @TestMethod
-    public MetaTestData<Integer, Integer> sumTestTwoPlusTwo() {
-        MetaTestData<Integer, Integer> r = new MetaTestData<>();
-        r.setExpected(4);
-        r.setActual(sum(2, 2));
-        if (r.getActual().equals(r.getExpected())) {
-            r.setStatus(Status.PASSED);
-        } else {
-            r.setStatus(Status.FAILED);
-        }
-        return r;
-    }
-
-    @TestMethod
-    public MetaTestData<Integer, Integer> sumTestTwoPlusThree() {
-        MetaTestData<Integer, Integer> r = new MetaTestData<>();
-        r.setExpected(4);
-        r.setActual(sum(2, 3));
-        if (r.getActual().equals(r.getExpected())) {
-            r.setStatus(Status.PASSED);
-        } else {
-            r.setStatus(Status.FAILED);
-        }
-        return r;
     }
 }
