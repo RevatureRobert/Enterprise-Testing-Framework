@@ -4,22 +4,29 @@ import com.enterprise.model.MetaTestData;
 import com.enterprise.model.Status;
 //ToDO:rename?
 public class TestResultsAPI {
-    public static <A> MetaTestData<String,?> testString(String expected, A actual){
-        MetaTestData<String, A> mt = new MetaTestData<>();
+
+
+    private TestResultsAPI instance;
+    private TestResultsAPI(){ this.instance = new TestResultsAPI(); }
+
+    public TestResultsAPI getInstance(){ if (null == instance){ return new TestResultsAPI();} else return instance;}
+
+
+    public static MetaTestData<String,String> testString(String expected, String actual){
+        MetaTestData<String, String> mt = new MetaTestData<>();
         mt.setExpected(expected);
         try {
             if(expected.equals(actual)){
                 mt.setStatus(Status.PASSED);
-                mt.setActual(actual);
             } else {
                 mt.setStatus(Status.FAILED);
 
-                mt.setActual(actual);
             }
+            mt.setActual(actual);
         } catch (Exception e) {
 
             mt.setStatus(Status.EXCEPTION_THROWN);
-            mt.setActual((A) e);
+            mt.setMessage(e.getMessage());
         }
         return mt;
     }
@@ -36,9 +43,8 @@ public class TestResultsAPI {
             }
             mt.setActual(actual);
         } catch (Exception e) {
-
             mt.setStatus(Status.EXCEPTION_THROWN);
-            mt.setActual((A) e);
+            mt.setMessage(e.getMessage());
         }
         return mt;
     }
